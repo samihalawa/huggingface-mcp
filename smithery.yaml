@@ -1,0 +1,58 @@
+version: 1
+runtime: container
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      huggingface_api_token:
+        type: string
+        description: "Your HuggingFace API token for accessing models"
+        default: ""
+      default_model:
+        type: string
+        description: "Default model to use for inference"
+        default: "microsoft/DialoGPT-medium"
+      max_tokens:
+        type: number
+        description: "Maximum tokens per request"
+        default: 1000
+        minimum: 1
+        maximum: 4096
+      temperature:
+        type: number
+        description: "Temperature for text generation"
+        default: 0.7
+        minimum: 0.0
+        maximum: 2.0
+      debug:
+        type: boolean
+        description: "Enable debug logging"
+        default: false
+    required: []
+  commandFunction: |-
+    (config) => ({ 
+      command: 'node', 
+      args: ['build/index.js'], 
+      env: { 
+        HUGGINGFACE_API_TOKEN: config.huggingface_api_token || '',
+        DEFAULT_MODEL: config.default_model || 'microsoft/DialoGPT-medium',
+        MAX_TOKENS: config.max_tokens?.toString() || '1000',
+        TEMPERATURE: config.temperature?.toString() || '0.7',
+        DEBUG: config.debug ? 'true' : 'false'
+      } 
+    })
+build:
+  dockerfile: "Dockerfile"
+  dockerBuildPath: "."
+healthCheck:
+  timeout: 30
+  interval: 10
+  retries: 3
+  startPeriod: 60
+exampleConfig:
+  huggingface_api_token: ""
+  default_model: "microsoft/DialoGPT-medium"
+  max_tokens: 1000
+  temperature: 0.7
+  debug: false
