@@ -1,8 +1,8 @@
 import axios from 'axios';
 import FormData from 'form-data';
 import { logToFile } from './index.js';
-import * as fs from 'fs';
-import * as path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 
 const BASE_URL = 'https://huggingface.co/api';
 
