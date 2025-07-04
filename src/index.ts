@@ -32,11 +32,13 @@ const config = {
 };
 HFService.setConfig(config);
 
-// Create tool definitions and setup handlers
+// Create tool definitions
 const TOOLS = createToolDefinitions();
-await setupRequestHandlers(server, TOOLS);
 
 async function main() {
+  // Setup request handlers inside main function to avoid top-level await
+  await setupRequestHandlers(server, TOOLS);
+  
   // Use stdio transport for MCP protocol compliance
   const transport = new StdioServerTransport();
   await server.connect(transport);
