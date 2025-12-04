@@ -1,0 +1,8 @@
+{
+    "actorSpecification": 1,
+    "name": "huggingface-mcp",
+    "title": "HuggingFace MCP",
+    "description": "MCP server for HuggingFace models",
+    "version": "0.1",
+    "dockerfile": "./Dockerfile"
+}
